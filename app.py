@@ -6,11 +6,13 @@ import os
 app = Flask(__name__)
 
 UPLOAD_FOLDER = "uploads"
-OUTPUT_FOLDER = "outputs"  # Update to outputs folder
+OUTPUT_FOLDER = "static/outputs"  # Update to static/outputs folder
 
-# Ensure the folders exist
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-os.makedirs(OUTPUT_FOLDER, exist_ok=True)
+# Ensure the folders exist (if they are not manually created)
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+if not os.path.exists(OUTPUT_FOLDER):
+    os.makedirs(OUTPUT_FOLDER)
 
 @app.route('/')
 def index():
