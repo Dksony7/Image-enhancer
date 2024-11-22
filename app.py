@@ -6,7 +6,7 @@ import os
 app = Flask(__name__)
 
 UPLOAD_FOLDER = "uploads"
-OUTPUT_FOLDER = "outputs"
+OUTPUT_FOLDER = "static/outputs"
 
 
 @app.route('/')
