@@ -5,8 +5,9 @@ import os
 
 app = Flask(__name__)
 
+# Define upload and output folder locations
 UPLOAD_FOLDER = "uploads"
-OUTPUT_FOLDER = "static/outputs"
+OUTPUT_FOLDER = "static/outputs"  # Update to static/outputs folder
 
 
 @app.route('/')
@@ -32,6 +33,7 @@ def enhance():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+    # Use static/outputs to get the enhanced image URL
     output_url = url_for("static", filename=f"outputs/enhanced_{filename}", _external=True)
     return jsonify({"enhanced_image": output_url})
 
