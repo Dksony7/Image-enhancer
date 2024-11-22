@@ -3,12 +3,12 @@ from werkzeug.utils import secure_filename
 from enhancer.api import enhance_image
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="static")
 
 UPLOAD_FOLDER = "uploads"
-OUTPUT_FOLDER = "static/outputs"  # Ensure that 'static/outputs' exists
+OUTPUT_FOLDER = "static/outputs"  # Ensure this is inside the static folder
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-os.makedirs(OUTPUT_FOLDER, exist_ok=True)  # Create the 'outputs' folder under 'static'
+os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
 @app.route("/enhance", methods=["POST"])
 def enhance():
@@ -24,8 +24,10 @@ def enhance():
     file.save(input_path)
 
     output_path = os.path.join(OUTPUT_FOLDER, f"enhanced_{filename}")
+    
     try:
         enhance_image(input_path, output_path)
+        print(f"Enhanced image saved at {output_path}")  # Log for debugging
     except Exception as e:
         return jsonify({"error": f"Enhance function failed: {str(e)}"}), 500
 
