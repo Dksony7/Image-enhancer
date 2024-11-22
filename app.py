@@ -7,8 +7,7 @@ app = Flask(__name__, static_folder="static")
 
 UPLOAD_FOLDER = "uploads"
 OUTPUT_FOLDER = "static/outputs"  # Ensure this is inside the static folder
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-os.makedirs(OUTPUT_FOLDER, exist_ok=True)
+
 
 @app.route("/enhance", methods=["POST"])
 def enhance():
