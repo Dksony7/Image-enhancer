@@ -3,13 +3,14 @@ from werkzeug.utils import secure_filename
 from enhancer.api import enhance_image
 import os
 
-app = Flask(__name__, static_url_path='/static', static_folder='static')
+app = Flask(__name__)
 
-
-# Define upload and output folder locations
 UPLOAD_FOLDER = "uploads"
-OUTPUT_FOLDER = "static/outputs"  # Update to static/outputs folder
+OUTPUT_FOLDER = "outputs"  # Update to outputs folder
 
+# Ensure the folders exist
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
 @app.route('/')
 def index():
@@ -29,14 +30,22 @@ def enhance():
     file.save(input_path)
 
     output_path = os.path.join(OUTPUT_FOLDER, f"enhanced_{filename}")
+    
     try:
+        # Try enhancing the image
         enhance_image(input_path, output_path)
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
 
-    # Use static/outputs to get the enhanced image URL
-    output_url = url_for("static", filename=f"outputs/enhanced_{filename}", _external=True)
-    return jsonify({"enhanced_image": output_url})
+        # Check if the enhanced image exists
+        if not os.path.exists(output_path):
+            raise Exception("Enhanced image not created.")
+        
+        # Generate URL for the enhanced image
+        output_url = url_for("static", filename=f"outputs/enhanced_{filename}", _external=True)
+        return jsonify({"enhanced_image": output_url})
+    
+    except Exception as e:
+        print(f"Error: {str(e)}")  # Log the error to the server logs
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
     app.run(debug=True)
