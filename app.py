@@ -3,6 +3,7 @@ from flask import Flask, request, jsonify, url_for
 from werkzeug.utils import secure_filename
 from enhancer.api import enhance_image
 import logging
+import uuid
 
 app = Flask(__name__)
 
@@ -34,17 +35,19 @@ def enhance():
     filename = secure_filename(file.filename)
     input_path = os.path.join(UPLOAD_FOLDER, filename)
 
-    # Check if a directory with the same name exists
-    if os.path.isdir(input_path):
-        return jsonify({"error": f"A directory with the name {filename} already exists."}), 400
+    # Check if the file path already exists as a file or directory
+    if os.path.exists(input_path):
+        # Rename the file to avoid conflicts (e.g., append a UUID)
+        new_filename = f"{uuid.uuid4()}_{filename}"
+        input_path = os.path.join(UPLOAD_FOLDER, new_filename)
 
     try:
-        # Save the file
+        # Save the file with a unique name if necessary
         file.save(input_path)
 
         # Output path for enhanced image
         output_path = os.path.join(OUTPUT_FOLDER, f"enhanced_{filename}")
-        
+
         # Enhance the image
         enhance_image(input_path, output_path)
 
