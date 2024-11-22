@@ -3,7 +3,8 @@ from werkzeug.utils import secure_filename
 from enhancer.api import enhance_image
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static', static_folder='static')
+
 
 # Define upload and output folder locations
 UPLOAD_FOLDER = "uploads"
