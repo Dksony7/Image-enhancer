@@ -1,3 +1,4 @@
+import logging
 from flask import Flask, request, jsonify, url_for
 from werkzeug.utils import secure_filename
 from enhancer.api import enhance_image
@@ -6,13 +7,16 @@ import os
 app = Flask(__name__)
 
 UPLOAD_FOLDER = "uploads"
-OUTPUT_FOLDER = "static/outputs"  # Update to static/outputs folder
+OUTPUT_FOLDER = "static/outputs"
 
-# Ensure the folders exist (if they are not manually created)
+# Ensure the folders exist
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 if not os.path.exists(OUTPUT_FOLDER):
     os.makedirs(OUTPUT_FOLDER)
+
+# Set up logging
+logging.basicConfig(level=logging.DEBUG)
 
 @app.route('/')
 def index():
@@ -46,7 +50,7 @@ def enhance():
         return jsonify({"enhanced_image": output_url})
     
     except Exception as e:
-        print(f"Error: {str(e)}")  # Log the error to the server logs
+        logging.error(f"Error enhancing image: {str(e)}")  # Log the error for debugging
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
