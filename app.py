@@ -1,8 +1,8 @@
-import logging
+import os
 from flask import Flask, request, jsonify, url_for
 from werkzeug.utils import secure_filename
 from enhancer.api import enhance_image
-import os
+import logging
 
 app = Flask(__name__)
 
@@ -33,6 +33,11 @@ def enhance():
 
     filename = secure_filename(file.filename)
     input_path = os.path.join(UPLOAD_FOLDER, filename)
+
+    # Ensure the file path is not a directory
+    if os.path.isdir(input_path):
+        return jsonify({"error": f"A directory with the name {filename} already exists."}), 400
+
     file.save(input_path)
 
     output_path = os.path.join(OUTPUT_FOLDER, f"enhanced_{filename}")
