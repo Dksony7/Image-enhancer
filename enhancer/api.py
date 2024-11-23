@@ -1,32 +1,35 @@
-import cv2
-import numpy as np
+from PIL import Image, ImageEnhance, ImageFilter
 import os
 
-def enhance_image(input_path, output_path):
+def enhance_image(input_path, output_path, enhancement_factor=1.5):
     """
-    Enhance the brightness and sharpness of an image using OpenCV.
+    Enhance the image with brightness, sharpness, contrast, and denoising.
     Args:
         input_path (str): Path to the input image.
         output_path (str): Path to save the enhanced image.
+        enhancement_factor (float): Factor for enhancement (default=1.5).
     """
     if not os.path.exists(input_path):
         raise FileNotFoundError(f"Input file {input_path} not found.")
-    
-    # Read the image
-    img = cv2.imread(input_path)
-    if img is None:
-        raise ValueError("Invalid image file")
 
-    # Enhance brightness
-    brightness_factor = 1.2
-    img = cv2.convertScaleAbs(img, alpha=brightness_factor, beta=30)
+    # Open the image
+    with Image.open(input_path) as img:
+        # Denoise the image
+        img = img.filter(ImageFilter.SMOOTH_MORE)
 
-    # Apply sharpening filter
-    kernel = np.array([[0, -1, 0],
-                       [-1, 5, -1],
-                       [0, -1, 0]])
-    sharpened = cv2.filter2D(img, -1, kernel)
+        # Enhance brightness
+        enhancer = ImageEnhance.Brightness(img)
+        img = enhancer.enhance(enhancement_factor)
 
-    # Save the enhanced image
-    cv2.imwrite(output_path, sharpened)
-    
+        # Enhance sharpness
+        enhancer = ImageEnhance.Sharpness(img)
+        img = enhancer.enhance(enhancement_factor)
+
+        # Enhance contrast
+        enhancer = ImageEnhance.Contrast(img)
+        img = enhancer.enhance(enhancement_factor)
+
+        # Save the enhanced image
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)
+        img.save(output_path, "JPEG")
+        
