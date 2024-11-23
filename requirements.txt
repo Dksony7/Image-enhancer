@@ -1,4 +1,5 @@
-Flask==2.3.0
+flask
 flask-cors
-Pillow==9.4.0
+opencv-python
+werkzeug
 gunicorn==20.1.0
