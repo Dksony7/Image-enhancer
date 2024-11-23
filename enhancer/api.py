@@ -1,7 +1,18 @@
 from PIL import Image, ImageEnhance, ImageFilter
 import os
 
-def enhance_image(input_path, output_path, brightness_factor=1.2, contrast_factor=1.2, sharpness_factor=1.2):
+def enhance_image(input_path, output_path, brightness_factor=1.2, contrast_factor=1.2, sharpness_factor=1.1, smoothness_level=2):
+    """
+    Enhance brightness, contrast, and sharpness while adding smoothness to the image.
+    
+    Args:
+        input_path (str): Path to the input image.
+        output_path (str): Path to save the enhanced image.
+        brightness_factor (float): Brightness enhancement factor.
+        contrast_factor (float): Contrast enhancement factor.
+        sharpness_factor (float): Sharpness enhancement factor.
+        smoothness_level (int): Level of smoothness (1 = light, 2 = moderate, 3 = strong).
+    """
     if not os.path.exists(input_path):
         raise FileNotFoundError(f"Input file {input_path} not found.")
     
@@ -11,7 +22,7 @@ def enhance_image(input_path, output_path, brightness_factor=1.2, contrast_facto
         enhancer = ImageEnhance.Brightness(img)
         img = enhancer.enhance(brightness_factor)
 
-        # Enhance contrast (adjust here)
+        # Enhance contrast
         enhancer = ImageEnhance.Contrast(img)
         img = enhancer.enhance(contrast_factor)
 
@@ -19,8 +30,9 @@ def enhance_image(input_path, output_path, brightness_factor=1.2, contrast_facto
         enhancer = ImageEnhance.Sharpness(img)
         img = enhancer.enhance(sharpness_factor)
 
-        # Optional: Reduce noise using a filter
-        img = img.filter(ImageFilter.SMOOTH)
+        # Add smoothness (apply multiple passes for stronger smoothness)
+        for _ in range(smoothness_level):
+            img = img.filter(ImageFilter.SMOOTH_MORE)
 
         # Save the enhanced image
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
