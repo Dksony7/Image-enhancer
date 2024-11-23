@@ -1,4 +1,5 @@
 import os
+from flask_cors import CORS,
 from flask import Flask, request, jsonify, url_for
 from werkzeug.utils import secure_filename
 from enhancer.api import enhance_image
@@ -6,6 +7,7 @@ import logging
 import uuid
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "https://statusdownload8.blogspot.com"}})
 
 UPLOAD_FOLDER = "uploads"
 OUTPUT_FOLDER = "static/outputs"
