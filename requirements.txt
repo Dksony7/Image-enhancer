@@ -1,5 +1,5 @@
-flask
-flask-cors
-opencv-python
+Flask
+Flask-Cors
+Pillow
 werkzeug
 gunicorn==20.1.0
