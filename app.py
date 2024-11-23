@@ -1,5 +1,5 @@
 import os
-from flask_cors import CORS,
+from flask_cors import CORS
 from flask import Flask, request, jsonify, url_for
 from werkzeug.utils import secure_filename
 from enhancer.api import enhance_image
