@@ -1,5 +1,4 @@
 torch
-torchvision
 basicsr
 numpy
 opencv-python
@@ -10,4 +9,4 @@ requests
 Flask
 Flask-Cors
 gdown  # For downloading the weights if not present
-gunicorn==20.1.0
+gunicorn
