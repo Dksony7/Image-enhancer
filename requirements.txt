@@ -1,6 +1,13 @@
+basicsr
+realesrgan
+opencv-python-headless
+
+torchvision
+
+tqdm
 flask
 flask-cors
-opencv-python
+
 torch
 numpy
 tqdm
