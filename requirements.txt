@@ -1,15 +1,13 @@
-basicsr
-realesrgan
-opencv-python-headless
-
-torchvision
-
-tqdm
-flask
-flask-cors
-
-torch
+torch>=1.7.1
+torchvision>=0.8.2
+basicsr==1.4.2
 numpy
+opencv-python
+Pillow
+gfpgan
 tqdm
+requests
+Flask
+Flask-Cors
 gdown  # For downloading the weights if not present
 gunicorn==20.1.0
