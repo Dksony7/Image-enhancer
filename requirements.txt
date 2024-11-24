@@ -1,5 +1,8 @@
-Flask
-Flask-Cors
-Pillow
-werkzeug
+flask
+flask-cors
+opencv-python
+torch
+numpy
+tqdm
+gdown  # For downloading the weights if not present
 gunicorn==20.1.0
