@@ -4,8 +4,8 @@ gunicorn
 facexlib>
 gfpgan>
 requests
-torch>=1.8.1
-torchvision>=0.9.1
+torch==1.12.1
+torchvision==0.13.1 --extra-index-url https://download.pytorch.org/whl/cu116
 numpy
 opencv-python
 Pillow
