@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8
 ENV LC_ALL=C.UTF-8
 
-# Install system dependencies required for OpenCV
+# Install system dependencies for OpenCV
 RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \
@@ -14,19 +14,13 @@ RUN apt-get update && apt-get install -y \
     libglib2.0-0 \
     libsm6 \
     libxext6 \
-    libxrender-dev \
-    curl \
-    ca-certificates \
-    libjpeg-dev \
-    zlib1g-dev \
-    libopenblas-dev \
-    libopenmpi-dev && \
+    libxrender-dev && \
     rm -rf /var/lib/apt/lists/*
 
 # Set working directory
 WORKDIR /app
 
-# Copy requirements.txt and install Python dependencies
+# Install Python dependencies
 COPY requirements.txt .
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
