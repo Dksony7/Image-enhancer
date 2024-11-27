@@ -9,24 +9,28 @@ ENV LC_ALL=C.UTF-8
 # Install dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
-    cmake \
-    git \
+    libgl1 \
+    libglib2.0-0 \
     curl \
     ca-certificates \
     libjpeg-dev \
     zlib1g-dev \
     libopenblas-dev \
-    libopenmpi-dev
+    libopenmpi-dev && \
+    rm -rf /var/lib/apt/lists/*
 
 # Set working directory
 WORKDIR /app
 
-# Copy requirements.txt and install dependencies
+# Install Python dependencies
 COPY requirements.txt .
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
 # Copy the application code
 COPY . .
 
-# Command to run the app (modify as per your entry point)
-CMD ["python", "app.py"]  # Replace 'your_script.py' with your actual script
+# Expose the port your app runs on (default Gunicorn port: 8000)
+EXPOSE 8000
+
+# Start Gunicorn server
+CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:8000", "--workers", "4"]
