@@ -27,4 +27,5 @@ COPY . .
 
 # Expose application port and set CMD
 EXPOSE 8000
-CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:8000", "--workers", "4"]
+CMD ["gunicorn app:app --bind 0.0.0.0:8000 --workers=2 --threads=2
+]
