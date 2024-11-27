@@ -49,8 +49,8 @@ def enhance():
 if __name__ == "__main__":
     import os
 
-    # Get the port from environment variables or default to 8000
-    port = int(os.environ.get("PORT", 8000))
+    # Get the port from environment variables or default to 5000
+    port = int(os.environ.get("PORT", 5000))
     # Ensure the app runs on the correct host and port
     app.run(host="0.0.0.0", port=port, debug=True)
 
