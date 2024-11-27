@@ -26,6 +26,6 @@ RUN pip3 install -r requirements.txt
 COPY . .
 
 # Expose application port and set CMD
-EXPOSE 8000
-CMD ["gunicorn app:app --bind 0.0.0.0:8000 --workers=2 --threads=2
+EXPOSE 5000
+CMD ["gunicorn app:app --bind 0.0.0.0:5000 --workers=2 --threads=2
 ]
