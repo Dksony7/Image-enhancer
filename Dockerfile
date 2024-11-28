@@ -13,8 +13,9 @@ RUN apt-get update && apt-get install -y \
     libglib2.0-0 && \
     rm -rf /var/lib/apt/lists/*
 
-# Upgrade pip and install Python packages
-RUN pip3 install --upgrade pip
+# Upgrade pip and install PyTorch with CUDA support
+RUN pip3 install --upgrade pip && \
+    pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cu113
 
 # Set working directory
 WORKDIR /app
@@ -22,6 +23,9 @@ WORKDIR /app
 # Copy application code
 COPY requirements.txt .
 RUN pip3 install -r requirements.txt
+
+# Copy model weights
+COPY weights/RealESRGAN_x4plus.pth /app/weights/
 
 COPY . .
 
